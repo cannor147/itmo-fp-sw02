@@ -25,6 +25,7 @@ dependencies:
   - network >= 3.1.1.1
   - ansi-terminal >= 0.10.3
   - mtl >= 2.2.2
+  - split >= 0.2.3.4
   - random
   - http-conduit
   - warp

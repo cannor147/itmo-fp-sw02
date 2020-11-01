@@ -5,9 +5,10 @@ module UI
   ) where
 
 import GameState
-import Control.Monad.Cont (forM_)
+import Control.Monad.Cont (forM_, when)
 import Data.List (intercalate)
 import System.Console.ANSI
+import Data.List.Split
 
 display :: GameState -> (GameState -> Position -> IO GameState) -> IO ()
 display game gameHandler = do
@@ -20,25 +21,30 @@ display game gameHandler = do
   case gameState game of
     Playing -> do
       printBoard (gameBoard game)
-      printText ("It's you turn, " <> show currentSquad <> "!") NormalIntensity White
-      x <- readLn :: IO Int
-      y <- readLn :: IO Int
-
-      if min x y < 0 || max x y >= size then do
-        printText "Invalid indeces. Please, print any key and try again..." NormalIntensity White
-        _ <- getLine
-        display game gameHandler
-      else do
-        newGame <- gameHandler game (x, y)
-        display newGame gameHandler
+      printText ("It's you turn, " <> show currentSquad <> "! Print position if format 'x, y' or type 'exit'.") NormalIntensity White
+      input <- getLine
+      when (input /= "exit") $ do
+        let position = splitOn "," input
+        x <- pure $ read (head position) :: IO Int
+        y <- pure $ read (last position) :: IO Int
+  
+        if min x y < 0 || max x y >= size then do
+          printText "Invalid indeces. Please, print any key and try again or type 'exit'." NormalIntensity White
+          input' <- getLine
+          when (input' /= "exit") $ do
+            display game gameHandler
+        else do
+          newGame <- gameHandler game (x, y)
+          display newGame gameHandler
     End f -> do
       printEnd f (gameBoard game)
-      printText "Print any key to continue..." NormalIntensity White
-      _ <- getLine
-      let x = -1
-      let y = -1
-      newGame <- gameHandler game (x, y)
-      display newGame gameHandler
+      printText "Print any key to continue or type 'exit'." NormalIntensity White
+      input <- getLine
+      when (input /= "exit") $ do
+        let x = -1
+        let y = -1
+        newGame <- gameHandler game (x, y)
+        display newGame gameHandler
 
 printEnd :: Maybe Squad -> Board -> IO ()
 printEnd winner board = do
