@@ -3,6 +3,7 @@
 module GameState
   ( createGame
   , makeMove
+  , findWinner
   , findFreePositions
   , Position
   , Squad (..)
@@ -96,7 +97,7 @@ findFreePositions game = filter ((==) Empty . getCell board) generateIndeces whe
   generateIndeces   = map (\k -> (k `div` size, k `rem` size)) [0 .. size * size - 1]
 
 cellToMaybe :: Cell -> Maybe Squad
-cellToMaybe Empty    = Nothing
+cellToMaybe Empty        = Nothing
 cellToMaybe (NonEmpty v) = Just v
 
 instance ToJSON Squad     where toEncoding = genericToEncoding defaultOptions

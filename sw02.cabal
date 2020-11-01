@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 540a9cc244fcdb7bbe617897c5c3e697278ab380c3590913f0bdcdaf13b5fd5a
+-- hash: d5dc15f6b6a9e32fd6ddbb94857baf048605148a5eee23bf5d7cbb943473db45
 
 name:           sw02
 version:        0.1.0.0
@@ -80,6 +80,8 @@ test-suite sw02-test
       aeson >=1.4.7.1
     , ansi-terminal >=0.10.3
     , base >=4.7 && <5
+    , hspec
+    , hspec-core
     , http-conduit
     , mtl >=2.2.2
     , network >=3.1.1.1
