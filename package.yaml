@@ -1,0 +1,56 @@
+name:                sw02
+version:             0.1.0.0
+github:              "Github username here/sw02"
+license:             BSD3
+author:              "Author name here"
+maintainer:          "Author email here"
+copyright:           "2019 Author name here"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            App category here
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/Github username here/sw02#readme>
+
+dependencies:
+  - base >= 4.7 && < 5
+  - aeson >= 1.4.7.1
+  - network >= 3.1.1.1
+  - ansi-terminal >= 0.10.3
+  - mtl >= 2.2.2
+  - random
+  - http-conduit
+  - warp
+  - servant-server
+
+library:
+  source-dirs: src
+
+executables:
+  sw02-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - sw02
+
+tests:
+  sw02-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - sw02
